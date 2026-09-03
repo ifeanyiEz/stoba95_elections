@@ -2,6 +2,8 @@ import express from "express";
 import cors from "cors";
 import session from "express-session";
 import connectPgSimple from "connect-pg-simple";
+import path from "path";
+import fs from "fs";
 import { pool } from "./db";
 import authRoutes from "./routes/auth";
 import votesRoutes from "./routes/votes";
@@ -55,6 +57,17 @@ export function createApp() {
   app.use("/api/turnout", turnoutRoutes);
   app.use("/api/results", resultsRoutes);
   app.use("/api/admin", adminRoutes);
+
+  // Single-deployable mode: serve the built client (and its client-side
+  // routes, e.g. /admin) from this same service. No-op locally, where the
+  // client runs on its own Vite dev server and this directory doesn't exist.
+  const clientDist = path.join(__dirname, "..", "..", "client", "dist");
+  if (fs.existsSync(clientDist)) {
+    app.use(express.static(clientDist));
+    app.get(/^(?!\/api\/).*/, (_req, res) => {
+      res.sendFile(path.join(clientDist, "index.html"));
+    });
+  }
 
   app.use((err: unknown, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
     console.error(err);

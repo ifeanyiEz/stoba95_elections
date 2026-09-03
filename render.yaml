@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: stoba95-elections
+    runtime: node
+    plan: starter
+    buildCommand: npm --prefix client install && npm --prefix client run build && npm --prefix server install && npm --prefix server run build
+    preDeployCommand: npm --prefix server run migrate
+    startCommand: npm --prefix server start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: stoba95-db
+          property: connectionString
+
+databases:
+  - name: stoba95-db
+    plan: starter
+    databaseName: stoba95
+    user: stoba95

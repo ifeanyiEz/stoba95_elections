@@ -1,4 +1,6 @@
-const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:4000";
+// Empty by default so production (single-service, same-origin) requests are
+// relative. Local dev sets VITE_API_URL to point at the separate API port.
+const API_URL = import.meta.env.VITE_API_URL ?? "";
 
 async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
   const res = await fetch(`${API_URL}/api${path}`, {
