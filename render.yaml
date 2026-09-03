@@ -18,7 +18,10 @@ services:
           property: connectionString
 
 databases:
+  # Free tier: expires 30 days after creation (14-day grace period to
+  # upgrade before data is deleted). Fine for now, but if this platform
+  # needs to persist past that, upgrade to a paid plan before it lapses.
   - name: stoba95-db
-    plan: starter
+    plan: free
     databaseName: stoba95
     user: stoba95
