@@ -2,7 +2,7 @@ services:
   - type: web
     name: stoba95-elections
     runtime: node
-    plan: starter
+    plan: free
     buildCommand: npm --prefix client install && npm --prefix client run build && npm --prefix server install && npm --prefix server run build
     preDeployCommand: npm --prefix server run migrate
     startCommand: npm --prefix server start
