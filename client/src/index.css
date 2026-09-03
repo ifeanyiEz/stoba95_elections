@@ -1,0 +1,70 @@
+:root {
+  /* STOBA '95 crest palette */
+  --color-green: #4f9f34;
+  --color-green-dark: #2f6b1f;
+  --color-green-light: #e8f4e1;
+  --color-gold: #d8c830;
+  --color-gold-dark: #6b6414;
+
+  --text: #16201a;
+  --text-soft: #4b584f;
+  --bg: #fbfbf8;
+  --surface: #ffffff;
+  --border: #dde5d8;
+  --danger: #b3261e;
+  --danger-bg: #fbeceb;
+
+  --sans: "Raleway", system-ui, "Segoe UI", Roboto, sans-serif;
+
+  font: 16px/145% var(--sans);
+  color-scheme: light dark;
+  color: var(--text);
+  background: var(--bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-green: #6bc94c;
+    --color-green-dark: #8fe070;
+    --color-green-light: #1c2a19;
+    --color-gold: #e3d95a;
+    --color-gold-dark: #e9e98c;
+
+    --text: #eef3ea;
+    --text-soft: #aab6a4;
+    --bg: #11150f;
+    --surface: #181f17;
+    --border: #2a352a;
+    --danger: #ff6b60;
+    --danger-bg: #3a1f1d;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--sans);
+  font-weight: 600;
+  color: var(--text);
+  margin: 0 0 0.5em;
+}
+
+p {
+  margin: 0;
+}
+
+button {
+  font-family: var(--sans);
+}
