@@ -4,8 +4,9 @@ services:
     runtime: node
     plan: free
     buildCommand: npm --prefix client install && npm --prefix client run build && npm --prefix server install && npm --prefix server run build
-    preDeployCommand: npm --prefix server run migrate
-    startCommand: npm --prefix server start
+    # preDeployCommand isn't supported on the free plan, so the (idempotent)
+    # schema migration runs as part of every start instead.
+    startCommand: npm --prefix server run migrate && npm --prefix server start
     healthCheckPath: /api/health
     envVars:
       - key: NODE_ENV
