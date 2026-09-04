@@ -3,7 +3,6 @@ services:
     name: stoba95-elections
     runtime: node
     plan: free
-    region: frankfurt
     # --include=dev is required here: NODE_ENV=production (below) makes npm
     # skip devDependencies otherwise, but vite/typescript/@types/* — needed
     # to build — all live there.
@@ -28,6 +27,5 @@ databases:
   # needs to persist past that, upgrade to a paid plan before it lapses.
   - name: stoba95-db
     plan: free
-    region: frankfurt
     databaseName: stoba95
     user: stoba95
