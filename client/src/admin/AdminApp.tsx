@@ -2,9 +2,10 @@ import { useEffect, useState } from "react";
 import { adminApi, type AdminMember } from "../api";
 import RolesPanel from "./RolesPanel";
 import MembersPanel from "./MembersPanel";
+import AccountPanel from "./AccountPanel";
 import "./admin.css";
 
-type Tab = "roles" | "members";
+type Tab = "roles" | "members" | "account";
 
 export default function AdminApp() {
   const [loggedIn, setLoggedIn] = useState<boolean | null>(null);
@@ -96,10 +97,18 @@ export default function AdminApp() {
         >
           Members
         </button>
+        <button
+          type="button"
+          className={tab === "account" ? "active" : "secondary"}
+          onClick={() => setTab("account")}
+        >
+          Account
+        </button>
       </nav>
 
       {tab === "roles" && <RolesPanel members={members} />}
       {tab === "members" && <MembersPanel onChanged={loadMembers} />}
+      {tab === "account" && <AccountPanel />}
     </div>
   );
 }

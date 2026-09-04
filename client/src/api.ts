@@ -121,4 +121,10 @@ export const adminApi = {
       method: "POST",
       body: JSON.stringify({ pin }),
     }),
+
+  changePassword: (currentPassword: string, newPassword: string) =>
+    request<{ ok: true }>("/admin/account/change-password", {
+      method: "POST",
+      body: JSON.stringify({ currentPassword, newPassword }),
+    }),
 };

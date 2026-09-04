@@ -189,4 +189,33 @@ router.post("/members/:memberId/reset-pin", async (req, res) => {
   res.json({ ok: true });
 });
 
+// --- Account ---
+
+// Self-service password change for the logged-in admin. Requires the
+// current password so a stray/hijacked session can't lock out the real
+// admin — there's no Shell access on the free plan to fix that by hand.
+router.post("/account/change-password", async (req, res) => {
+  const adminId = req.session.adminId!;
+  const { currentPassword, newPassword } = req.body ?? {};
+  if (!currentPassword || !newPassword) {
+    return res.status(400).json({ error: "currentPassword and newPassword are required" });
+  }
+  if (String(newPassword).length < 8) {
+    return res.status(400).json({ error: "New password must be at least 8 characters" });
+  }
+
+  const { rows } = await pool.query(
+    "SELECT password_hash FROM admins WHERE admin_id = $1",
+    [adminId]
+  );
+  if (!rows[0]) return res.status(404).json({ error: "Admin not found" });
+
+  const ok = await bcrypt.compare(String(currentPassword), rows[0].password_hash);
+  if (!ok) return res.status(401).json({ error: "Current password is incorrect" });
+
+  const newHash = await bcrypt.hash(String(newPassword), 10);
+  await pool.query("UPDATE admins SET password_hash = $1 WHERE admin_id = $2", [newHash, adminId]);
+  res.json({ ok: true });
+});
+
 export default router;
