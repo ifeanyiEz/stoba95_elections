@@ -3,7 +3,10 @@ services:
     name: stoba95-elections
     runtime: node
     plan: free
-    buildCommand: npm --prefix client install && npm --prefix client run build && npm --prefix server install && npm --prefix server run build
+    # --include=dev is required here: NODE_ENV=production (below) makes npm
+    # skip devDependencies otherwise, but vite/typescript/@types/* — needed
+    # to build — all live there.
+    buildCommand: npm --prefix client install --include=dev && npm --prefix client run build && npm --prefix server install --include=dev && npm --prefix server run build
     # preDeployCommand isn't supported on the free plan, so the (idempotent)
     # schema migration runs as part of every start instead.
     startCommand: npm --prefix server run migrate && npm --prefix server start
